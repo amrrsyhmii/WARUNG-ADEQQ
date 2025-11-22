@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kedai Makanan Saya</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f4f4;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            background: #333;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 350px;
+            background-image: url('foodstall.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 10px black;
+            text-align: center;
+        }
+        .hero h1 { font-size: 45px; margin-bottom:5px; }
+        .hero p { font-size: 20px; }
+
+        /* Real-Time Clock */
+        .clock { text-align:center; padding:20px; background:#fff; margin:20px auto; font-size:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+        .animated-clock {
+            font-size: 2em;
+            font-weight: bold;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .update {
+            transform: scale(1.2);
+            opacity: 0.5;
+        }
+
+        /* Menu Section */
+        .menu { padding:40px; text-align:center; }
+        .menu h2 { margin-bottom:30px; }
+        .menu-item {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s;
+            outline: none;
+        }
+        .menu-item:hover, .menu-item:focus { transform: scale(1.02); }
+        .menu-item img { width:100%; border-radius:8px; margin-top:10px; }
+        .menu-item h3 { margin:0; }
+        .price { color: green; font-weight:bold; }
+        .more-info { display:none; margin-top:10px; background:#f9f9f9; padding:10px; border-left:3px solid #333; }
+
+        /* Operating Hours */
+        .hours {
+            text-align:center; padding:20px; background:#fff; margin:20px auto; max-width:600px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Location */
+        .location { padding:40px; text-align:center; }
+        .location iframe { width:100%; max-width:600px; height:450px; border:0; border-radius:8px; }
+
+        /* About Section */
+        .about { padding:40px; text-align:center; background:#fff; margin:20px auto; max-width:700px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+
+        /* Promotions Section */
+        .promo { padding:40px; text-align:center; margin:20px auto; max-width:600px; background:#fffae6; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+
+        /* Social Media */
+        .social { text-align:center; margin:20px 0; }
+        .social a {
+            background: #E1306C; /* Instagram color */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .social a:hover { opacity: 0.8; }
+
+        /* Footer */
+        footer { background:#333; color:white; padding:15px; text-align:center; margin-top:40px; }
+
+        /* Animations & Fade-in */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Accessibility Focus */
+        a:focus { outline: 3px solid #E1306C; outline-offset: 2px; }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Music -->
+    <audio autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Browser anda tidak menyokong audio.
+    </audio>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Kedai Makanan Saya</div>
+        <div>
+            <a href="#menu">Menu</a>
+            <a href="#hours">Waktu Operasi</a>
+            <a href="#location">Lokasi</a>
+            <a href="#contact">Hubungi</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero fade-in">
+        <h1>Selamat Datang ke Kedai Makanan Kami</h1>
+        <p>Sedap • Segar • Berpatutan</p>
+    </div>
+
+    <!-- Real-Time Animated Clock -->
+    <section class="clock fade-in" id="clock">
+        <h2>Masa Semasa</h2>
+        <div id="time" class="animated-clock">00:00:00</div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu fade-in" id="menu">
+        <h2>Menu Pilihan Kami</h2>
+
+        <div class="menu-item fade-in" tabindex="0" onclick="toggleInfo(this)" onkeypress="if(event.key==='Enter'){toggleInfo(this);}">
+            <h3>Nasi Lemak <span class="price">RM5.00</span></h3>
+            <img src="nasilemak.jpg" alt="Nasi Lemak">
+            <div class="more-info">
+                Nasi lemak wangi dengan sambal pedas, telur rebus, ikan bilis dan kacang.
+            </div>
+        </div>
+
+        <div class="menu-item fade-in" tabindex="0" onclick="toggleInfo(this)" onkeypress="if(event.key==='Enter'){toggleInfo(this);}">
+            <h3>Roti Canai + Kuah Kari <span class="price">RM3.50</span></h3>
+            <img src="roticanai.jpg" alt="Roti Canai">
+            <div class="more-info">
+                Roti canai lembut, disajikan dengan kuah kari yang pekat dan sedap.
+            </div>
+        </div>
+
+        <div class="menu-item fade-in" tabindex="0" onclick="toggleInfo(this)" onkeypress="if(event.key==='Enter'){toggleInfo(this);}">
+            <h3>Teh Tarik <span class="price">RM2.00</span></h3>
+            <img src="tehtarik.jpg" alt="Teh Tarik">
+            <div class="more-info">
+                Teh tarik panas, manis dan berkrim, minuman kegemaran rakyat Malaysia.
+            </div>
+        </div>
+
+        <div class="menu-item fade-in" tabindex="0" onclick="toggleInfo(this)" onkeypress="if(event.key==='Enter'){toggleInfo(this);}">
+            <h3>Char Kuey Teow <span class="price">RM6.00</span></h3>
+            <img src="char kuey teow.jpg" alt="Char Kuey Teow">
+            <div class="more-info">
+                Kuey teow goreng dengan udang, telur, kerang, dan sos istimewa kami.
+            </div>
+        </div>
+    </section>
+
+    <!-- Operating Hours -->
+    <section class="hours fade-in" id="hours">
+        <h2>Waktu Operasi</h2>
+        <p>🕒 Isnin – Ahad: 7:30 AM – 4:30 PM</p>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location fade-in" id="location">
+        <h2>Lokasi Kedai Kami</h2>
+        <iframe
+            src="https://www.google.com/maps?q=6.449572007531711,100.5085717079627&hl=ms&z=15&output=embed"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </section>
+
+    <!-- About Section -->
+    <section class="about fade-in">
+        <h2>Tentang Kami</h2>
+        <p>Kami menyediakan makanan tradisional Malaysia yang sedap dan berpatutan. Resepi istimewa turun-temurun, dibuat dengan penuh kasih sayang untuk pelanggan kami.</p>
+    </section>
+
+    <!-- Promotions Section -->
+    <section class="promo fade-in">
+        <h2>Promosi Hari Ini</h2>
+        <p>🎉 Combo Nasi Lemak + Teh Tarik hanya RM6.50!</p>
+    </section>
+
+    <!-- Social Media -->
+    <div class="social fade-in">
+        <a href="https://www.instagram.com/warong.adeq?igsh=bjF5cDh0ZXVua3Ay" target="_blank">Instagram</a>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact" class="fade-in">
+        <p>Hubungi kami: 📞 012-4524145 | Instagram: 
+           <a href="https://www.instagram.com/warong.adeq?igsh=bjF5cDh0ZXVua3Ay" target="_blank">@warong.adeq</a>
+        </p>
+        <p>© 2025 Kedai Makanan Saya</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Toggle menu info
+        function toggleInfo(item) {
+            const info = item.querySelector('.more-info');
+            if (info.style.display === "block") { info.style.display = "none"; }
+            else { info.style.display = "block"; }
+        }
+
+        // Animated real-time clock
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2,'0');
+            const minutes = String(now.getMinutes()).padStart(2,'0');
+            const seconds = String(now.getSeconds()).padStart(2,'0');
+            const timeEl = document.getElementById('time');
+
+            timeEl.classList.add('update'); // animate
+
+            setTimeout(() => {
+                timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+                timeEl.classList.remove('update');
+            }, 150);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Fade-in on scroll
+        function handleScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 50) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', handleScroll);
+        window.addEventListener('load', handleScroll);
+    </script>
+
+</body>
+</html>
